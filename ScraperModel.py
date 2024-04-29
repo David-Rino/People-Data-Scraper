@@ -1,5 +1,6 @@
 import os
 import time
+import usaddress
 from openpyxl import load_workbook
 import undetected_chromedriver as uc
 import bs4
@@ -41,6 +42,11 @@ class DataScraper:
             ws[self.phones_cols[i] + str(row)].value = phones[i]
         wb.save(self.xlsx_path)
 
+    def savePhonesToDatabase(self, clientID, phones):
+        phone_length = min(len(phones), 5)
+        for i in range(phone_length):
+            self.controller.addPhone(self.controller.retrivePhones(1)[0][0] + 1, clientID, phones[i])
+
     def extract_phones_from_page(self, page_source):
         phones = []
         try:
@@ -62,7 +68,20 @@ class DataScraper:
                 address.append(re.sub(r'\n', ' ', tempAddress))
         except Exception as e:
             print(str(e))
+
+        address = self.parseAddress(address[0])
         return address
+
+    def parseAddress(self, address):
+        parsed = usaddress.tag(address)
+
+        if 'StreetName' in parsed[0]:
+            streetAddress = ' '.join([parsed[0].get(part, '') for part in ['AddressNumber', 'StreetNamePreDirectional', 'StreetName', 'StreetNamePostType']])
+            city = parsed[0].get('PlaceName', '')
+            state = parsed[0].get('StateName', '')
+            zipcode = parsed[0].get('ZipCode', '')
+            return {'streetAddress': streetAddress.strip(), 'city': city, 'state': state, 'zipcode': zipcode}
+        return None
 
     def extract_age_from_page(self, page_source):
         try:
@@ -109,11 +128,15 @@ class DataScraper:
                 phones = self.extract_phones_from_page(driver.page_source)
                 address = self.extract_address_from_page(driver.page_source)
                 age = self.extract_age_from_page(driver.page_source)
-                print(address)
                 print(age)
                 if phones and address and age:
                     self.write_phones_to_xlsx_file(wb, ws, phones, row)
-                    self.controller.addClient(self.controller.retriveClients(1)[0][0] + 1, self.controller.currentUserID, first_name, last_name, "Life", int(age))
+                    tempClientID = self.controller.retriveClients(1)[0][0]
+                    self.controller.addClient(tempClientID + 1, self.controller.currentUserID, first_name, last_name, "Life", int(age))
+                    self.savePhonesToDatabase(tempClientID, phones)
+                    #ADD CITIES
+                    self.controller.addAddress(self.controller.retriveAddresses(1)[0][0] + 1, tempClientID, address.get('streetAddress'), address.get('state'), address.get('zipcode'))
+
                 else:
                     print(f"No phones found for {first_name} {last_name}")
                 time.sleep(1)

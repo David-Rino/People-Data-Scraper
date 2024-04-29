@@ -43,8 +43,14 @@ class Controller:
     def addPhone(self, phoneID, clientID, phoneNumber):
         return self.SQLModel.addPhone(phoneID, clientID, phoneNumber)
 
+    def retrivePhones(self, amount):
+        return self.SQLModel.retrivePhones(amount)
+
     def addAddress(self, propertyID, clientID, address, state, zipcode):
         return self.SQLModel.addAddress(propertyID, clientID, address, state, zipcode)
+
+    def retriveAddresses(self, amount):
+        return self.SQLModel.retriveAddresses(amount)
 
 
 

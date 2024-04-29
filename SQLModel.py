@@ -126,12 +126,31 @@ class SQLModel:
         except Exception as error:
             print(error)
 
+    def retrivePhones(self, amount):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT *
+                FROM phonenumbers 
+                ORDER BY phoneID DESC
+                limit {amount}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
+
     def addAddress(self, propertyID, clientID, address, state, zipcode):
         try:
             conn =self.makeConn()
             cur = conn.cursor()
             cur.execute(f"""
-                INSERT INTO users (propertyID, clientID, address, state, zipcode)
+                INSERT INTO property (propertyID, clientID, address, state, zipcode)
                 VALUES ({propertyID}, '{clientID}', '{address}', '{state}', '{zipcode}')
             """)
             conn.commit()
@@ -139,3 +158,22 @@ class SQLModel:
             conn.close()
         except Exception as error:
             print(error)
+
+    def retriveAddresses(self, amount):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT *
+                FROM property 
+                ORDER BY propertyID DESC
+                limit {amount}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
