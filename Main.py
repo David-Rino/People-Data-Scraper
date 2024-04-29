@@ -3,7 +3,7 @@
 
 from Controller import Controller
 from PandasModel import PandasModel
-from SQLModel import  SQLModel
+from SQLModel import SQLModel
 import tkinter as tk
 from View import View
 

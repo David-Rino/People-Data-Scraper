@@ -3,6 +3,7 @@ import time
 from openpyxl import load_workbook
 import undetected_chromedriver as uc
 import bs4
+import re
 
 class DataScraper:
     def __init__(self, chromedriver_path="chromedriver.exe", xlsx_path="data.xlsx"):
@@ -47,6 +48,35 @@ class DataScraper:
             print(str(e))
         return phones
 
+    def extract_address_from_page(self, page_source):
+        address = []
+        try:
+            soup = bs4.BeautifulSoup(page_source, "html.parser")
+            a_tags = soup.find_all("a", title=lambda  x: x and "Search people living at" in x)
+            for a_tag in a_tags:
+                tempAddress = a_tag.text.strip()
+                address.append(re.sub(r'\n', ' ', tempAddress))
+        except Exception as e:
+            print(str(e))
+        return address
+
+    def extract_age_from_page(self, page_source):
+        try:
+            soup = bs4.BeautifulSoup(page_source, "html.parser")
+            div_tag = soup.find('div', class_='card-block')
+
+            age_tag = div_tag.find('h3', text='Age:')
+
+            if age_tag:
+                age_text = age_tag.find_next_sibling(text=True).strip()
+                return age_text
+            else:
+                return None
+
+        except Exception as e:
+            print(str(e))
+            return None
+
     def run(self):
         driver = self.open_chrome_with_profile()
         driver.get("https://www.fastpeoplesearch.com/")
@@ -70,6 +100,10 @@ class DataScraper:
                 search_url = f"https://www.fastpeoplesearch.com/name/{first_name.replace(' ', '-')}-{last_name.replace(' ', '-')}_{str(address).replace(' ', '-')}"
                 driver.get(search_url)
                 phones = self.extract_phones_from_page(driver.page_source)
+                address = self.extract_address_from_page(driver.page_source)
+                ages = self.extract_age_from_page(driver.page_source)
+                print(address)
+                print(ages)
                 if phones:
                     self.write_phones_to_xlsx_file(wb, ws, phones, row)
                 else:
