@@ -15,6 +15,10 @@ class DataScraper:
         self.last_name_col = 'B'
         self.address_col = 'F'
         self.phones_cols = ['L', 'M', 'N', 'O', 'P']
+        self.controller = None
+
+    def setController(self, controller):
+        self.controller = controller
 
     def open_chrome_with_profile(self):
         options = uc.ChromeOptions()
@@ -69,6 +73,9 @@ class DataScraper:
 
             if age_tag:
                 age_text = age_tag.find_next_sibling(text=True).strip()
+                #If current client searched is dead, make age 0
+                if age_text.startswith("Deceased"):
+                    age_text = 0
                 return age_text
             else:
                 return None
@@ -101,11 +108,12 @@ class DataScraper:
                 driver.get(search_url)
                 phones = self.extract_phones_from_page(driver.page_source)
                 address = self.extract_address_from_page(driver.page_source)
-                ages = self.extract_age_from_page(driver.page_source)
+                age = self.extract_age_from_page(driver.page_source)
                 print(address)
-                print(ages)
-                if phones:
+                print(age)
+                if phones and address and age:
                     self.write_phones_to_xlsx_file(wb, ws, phones, row)
+                    self.controller.addClient(self.controller.retriveClients(1)[0][0] + 1, self.controller.currentUserID, first_name, last_name, "Life", int(age))
                 else:
                     print(f"No phones found for {first_name} {last_name}")
                 time.sleep(1)

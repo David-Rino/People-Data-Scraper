@@ -30,6 +30,7 @@ class View:
         self.button.pack_forget()
 
         if self.currentUser != None:
+            self.controller.currentUserID = self.currentUser[0]
             self.user_label = tk.Label(self.root, text="Current User: " + self.currentUser[1] + " " + self.currentUser[2])
             self.user_label.pack(anchor="ne")
             self.setMainMenu()
@@ -52,6 +53,7 @@ class View:
         self.controller.addUser(previousUserNo[0][0] + 1, name[0].strip(), name[1].strip())
 
         self.currentUser = self.controller.retriveUser(previousUserNo[0][0] + 1)
+        self.controller.currentUserID = self.currentUser[0]
         self.user_label = tk.Label(self.root, text="Current User: " + self.currentUser[1] + " " + self.currentUser[2])
         self.user_label.pack(anchor="ne")
 

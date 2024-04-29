@@ -78,3 +78,64 @@ class SQLModel:
             print(error)
 
         return None
+
+    def addClient(self, clientID, currentUserID, firstName, lastName, typeOfInsurance, age):
+        try:
+            conn =self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                INSERT INTO clients (clientID, brokerIssuer, first_name, last_name, type_of_insurance, age)
+                VALUES ({clientID}, {currentUserID}, '{firstName}', '{lastName}', '{typeOfInsurance}', '{age}')
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as error:
+            print(error)
+
+    def retriveClients(self, amount):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT *
+                FROM clients 
+                ORDER BY clientID DESC
+                limit {amount}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
+
+    def addPhone(self, phoneID, clientID, phoneNumber):
+        try:
+            conn =self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                INSERT INTO phonenumbers (phoneID, clientID, phone_number)
+                VALUES ({phoneID}, '{clientID}', '{phoneNumber}')
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as error:
+            print(error)
+
+    def addAddress(self, propertyID, clientID, address, state, zipcode):
+        try:
+            conn =self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                INSERT INTO users (propertyID, clientID, address, state, zipcode)
+                VALUES ({propertyID}, '{clientID}', '{address}', '{state}', '{zipcode}')
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as error:
+            print(error)
