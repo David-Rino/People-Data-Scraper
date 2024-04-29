@@ -1,10 +1,12 @@
 from ScraperModel import DataScraper
 from PandasModel import PandasModel
 from View import View
+from SQLModel import SQLModel
 class Controller:
-    def __init__(self, userView, pandasModel):
+    def __init__(self, userView, pandasModel, SQLModel):
         self.userView = userView
         self.pandasModel = pandasModel
+        self.SQLModel = SQLModel
         self.scraperModel = DataScraper()
 
     def loadDataFrame(self):
@@ -21,6 +23,18 @@ class Controller:
 
     def getDataFrame(self):
         return self.pandasModel.getDataFrame()
+
+    def retriveUser(self, user_id):
+        return self.SQLModel.retriveUser(user_id)
+
+    def retriveUserList(self, amount):
+        return self.SQLModel.retriveUserList(amount)
+
+    def addUser(self, userID, firstName, lastName):
+        return self.SQLModel.addUser(userID, firstName, lastName)
+
+
+
 
 
 
