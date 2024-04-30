@@ -25,10 +25,10 @@ class Controller:
     def getDataFrame(self):
         return self.pandasModel.getDataFrame()
 
-    def retriveUser(self, user_id):
+    def retrieveUser(self, user_id):
         return self.SQLModel.retrieveUser(user_id)
 
-    def retriveUserList(self, amount):
+    def retrieveUserList(self, amount):
         return self.SQLModel.retrieveUserList(amount)
 
     def addUser(self, userID, firstName, lastName):
@@ -37,23 +37,35 @@ class Controller:
     def addClient(self, clientID, currentUserID, firstName, lastName, typeOfInsurance, age):
         return self.SQLModel.addClient(clientID, currentUserID, firstName, lastName, typeOfInsurance, age)
 
-    def retriveClients(self, amount):
+    def retrieveClients(self, amount):
         return self.SQLModel.retrieveClients(amount)
 
     def addPhone(self, phoneID, clientID, phoneNumber):
         return self.SQLModel.addPhone(phoneID, clientID, phoneNumber)
 
-    def retrivePhones(self, amount):
+    def retrievePhones(self, amount):
         return self.SQLModel.retrievePhones(amount)
 
     def addAddress(self, propertyID, clientID, address, state, zipcode):
         return self.SQLModel.addAddress(propertyID, clientID, address, state, zipcode)
 
-    def retriveAddresses(self, amount):
+    def retrieveAddresses(self, amount):
         return self.SQLModel.retrieveAddresses(amount)
 
     def resetDatabase(self):
         return self.SQLModel.resetDatabase()
+
+    def retrieveClientInformation(self, clientID):
+        return self.SQLModel.retrieveClientInformation(clientID)
+
+    def retrieveClientPhoneNumbers(self, clientID):
+        return self.SQLModel.retrieveClientPhoneNumbers(clientID)
+
+    def processData(self, clientID):
+        return self.pandasModel.processData(clientID)
+
+    def resetDataFrame(self):
+        self.pandasModel.df = None
 
 
 

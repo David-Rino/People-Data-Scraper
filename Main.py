@@ -17,6 +17,7 @@ if __name__ == "__main__":
     userController = Controller(userView, userData, userDatabase, userDataScraper)
     # Used so the View has a way to contact the controller during runtime
     userView.setController(userController)
+    userData.setController(userController)
     userDatabase.setController(userController)
     userDataScraper.setController(userController)
     userController.runWindow()

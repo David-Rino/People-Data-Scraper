@@ -103,7 +103,7 @@ class View:
     def buttonPress(self):
         self.controller.setFilename(self.textbox.get('1.0', tk.END))
         self.controller.runScraper()
-        self.controller.loadDataFrame()
+        #self.controller.loadDataFrame()
         self.label.pack_forget()
         self.textbox.pack_forget()
         self.button.pack_forget()
@@ -132,6 +132,7 @@ class View:
 
     def openWindow(self):
         self.root.mainloop()
+
 
 
 

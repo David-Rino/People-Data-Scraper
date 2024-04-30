@@ -114,6 +114,7 @@ class DataScraper:
                 return 1
 
         wb, ws = self.open_xlsx_file()
+        self.controller.resetDataFrame()
         for row in range(2, ws.max_row + 1):
             try:
                 first_name = ws[self.first_name_col + str(row)].value
@@ -130,12 +131,13 @@ class DataScraper:
                 age = self.extract_age_from_page(driver.page_source)
                 print(age)
                 if phones and address and age:
-                    self.write_phones_to_xlsx_file(wb, ws, phones, row)
-                    tempClientID = self.controller.retrieveClients(1)[0][0]
-                    self.controller.addClient(tempClientID + 1, self.controller.currentUserID, first_name, last_name, "Life", int(age))
+                    #self.write_phones_to_xlsx_file(wb, ws, phones, row)
+                    tempClientID = self.controller.retrieveClients(1)[0][0] + 1
+                    self.controller.addClient(tempClientID, self.controller.currentUserID, first_name, last_name, "Life", int(age))
                     self.savePhonesToDatabase(tempClientID, phones)
                     #ADD CITIES
                     self.controller.addAddress(self.controller.retrieveAddresses(1)[0][0] + 1, tempClientID, address.get('streetAddress'), address.get('state'), address.get('zipcode'))
+                    self.controller.processData(tempClientID)
 
                 else:
                     print(f"No phones found for {first_name} {last_name}")

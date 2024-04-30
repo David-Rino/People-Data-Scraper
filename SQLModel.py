@@ -205,5 +205,44 @@ class SQLModel:
 
         return None
 
+    # Returns the joined table of a singular clientID.
+    def retrieveClientInformation(self, clientID):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT u.first_name AS Broker_Issuer, cl.first_name, cl.last_name, pr.address, pr.state, pr.zipcode
+                FROM users u 
+                JOIN clients cl ON cl.brokerissuer = u.user_id
+                JOIN property pr ON pr.clientid = cl.clientid
+                WHERE u.user_id = {self.controller.currentUserID} and cl.clientId = {clientID}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
 
+        return None
+
+    # Returns all the associated phone numbers of a client, will return an empty list if no phone numbers associated with a client
+    def retrieveClientPhoneNumbers(self, clientID):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT phone_number
+                FROM phonenumbers 
+                JOIN clients ON clients.clientid = phonenumbers.clientid
+                WHERE clients.clientid = {clientID}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
 
