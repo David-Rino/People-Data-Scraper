@@ -9,8 +9,23 @@ class View:
         root.geometry("1000x500")
         root.title("Fast People Search Scraper")
 
+        self.menuBar()
         self.userLogin()
         # self.setMainMenu()
+
+    def menuBar(self):
+        menubar = tk.Menu(self.root)
+        self.file = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label='Admin', menu=self.file)
+        self.file.add_command(label='Reset Table', command=self.resetDatabase)
+        self.file.add_command(label='Log Out', command=self.userLogout)
+        self.file.add_separator()
+        self.file.add_command(label='Exit', command=self.root.destroy)
+        self.root.config(menu = menubar)
+
+    def resetDatabase(self):
+        # A needed restriction due to set-up constraints
+        self.controller.resetDatabase()
 
     def userLogin(self):
         self.label = tk.Label(self.root, text="Enter userID", font=('Arial', 18))
@@ -36,6 +51,14 @@ class View:
             self.setMainMenu()
         else:
             self.addUser()
+
+    def userLogout(self):
+        self.currentUser = None
+
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        self.userLogin()
 
     def addUser(self):
         self.label = tk.Label(self.root, text="Error: User Does Not Exist\nCreate a New Account Enter First and Last Name:", font=('Arial', 18))

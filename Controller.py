@@ -52,6 +52,9 @@ class Controller:
     def retriveAddresses(self, amount):
         return self.SQLModel.retriveAddresses(amount)
 
+    def resetDatabase(self):
+        return self.SQLModel.resetDatabase()
+
 
 
 

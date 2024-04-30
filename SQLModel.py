@@ -13,6 +13,30 @@ class SQLModel:
     def setController(self, controller):
         self.controller = controller
 
+    def resetDatabase(self):
+        # This function is simply to reset an SQLData base for testing
+        try:
+            conn =self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                TRUNCATE TABLE clients, phonenumbers, property;
+
+                INSERT INTO clients (clientID, brokerIssuer, first_name, last_name, type_of_insurance, age)
+                VALUES (1, 1, 'Rino', 'David', 'health', 21);
+
+                INSERT INTO phonenumbers (phoneID, clientID, phone_number)
+                VALUES (1, 1, '777-777-777');
+
+                INSERT INTO property (propertyID, clientID, address, state, zipcode)
+                VALUES (1, 1, '7777 Home Rd', 'NV', '89142');
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as error:
+            print(error)
+
+
     def makeConn(self):
         conn = None
 
