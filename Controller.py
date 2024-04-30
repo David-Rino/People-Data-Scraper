@@ -26,10 +26,10 @@ class Controller:
         return self.pandasModel.getDataFrame()
 
     def retriveUser(self, user_id):
-        return self.SQLModel.retriveUser(user_id)
+        return self.SQLModel.retrieveUser(user_id)
 
     def retriveUserList(self, amount):
-        return self.SQLModel.retriveUserList(amount)
+        return self.SQLModel.retrieveUserList(amount)
 
     def addUser(self, userID, firstName, lastName):
         return self.SQLModel.addUser(userID, firstName, lastName)
@@ -38,19 +38,19 @@ class Controller:
         return self.SQLModel.addClient(clientID, currentUserID, firstName, lastName, typeOfInsurance, age)
 
     def retriveClients(self, amount):
-        return self.SQLModel.retriveClients(amount)
+        return self.SQLModel.retrieveClients(amount)
 
     def addPhone(self, phoneID, clientID, phoneNumber):
         return self.SQLModel.addPhone(phoneID, clientID, phoneNumber)
 
     def retrivePhones(self, amount):
-        return self.SQLModel.retrivePhones(amount)
+        return self.SQLModel.retrievePhones(amount)
 
     def addAddress(self, propertyID, clientID, address, state, zipcode):
         return self.SQLModel.addAddress(propertyID, clientID, address, state, zipcode)
 
     def retriveAddresses(self, amount):
-        return self.SQLModel.retriveAddresses(amount)
+        return self.SQLModel.retrieveAddresses(amount)
 
     def resetDatabase(self):
         return self.SQLModel.resetDatabase()

@@ -38,7 +38,7 @@ class View:
         self.button.pack(padx=10, pady=10)
 
     def loginButton(self):
-        self.currentUser = self.controller.retriveUser(self.textbox.get('1.0', tk.END).strip())
+        self.currentUser = self.controller.retrieveUser(self.textbox.get('1.0', tk.END).strip())
 
         self.label.pack_forget()
         self.textbox.pack_forget()
@@ -71,11 +71,11 @@ class View:
         self.button.pack(padx=10, pady=10)
 
     def addUserButton(self):
-        previousUserNo = self.controller.retriveUserList(1)
+        previousUserNo = self.controller.retrieveUserList(1)
         name = self.textbox.get('1.0', tk.END).strip().split()
         self.controller.addUser(previousUserNo[0][0] + 1, name[0].strip(), name[1].strip())
 
-        self.currentUser = self.controller.retriveUser(previousUserNo[0][0] + 1)
+        self.currentUser = self.controller.retrieveUser(previousUserNo[0][0] + 1)
         self.controller.currentUserID = self.currentUser[0]
         self.user_label = tk.Label(self.root, text="Current User: " + self.currentUser[1] + " " + self.currentUser[2])
         self.user_label.pack(anchor="ne")

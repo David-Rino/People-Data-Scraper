@@ -66,7 +66,8 @@ class SQLModel:
         except Exception as error:
             print(error)
 
-    def retriveUser(self, user_id):
+    # Retrieves a single user from the SQLDatabase by using their userID
+    def retrieveUser(self, user_id):
         try:
             conn = self.makeConn()
             cur = conn.cursor()
@@ -84,7 +85,8 @@ class SQLModel:
 
         return None
 
-    def retriveUserList(self, amount):
+    # Retrieves all users, specified by an amount, ordered in Desc format
+    def retrieveUserList(self, amount):
         try:
             conn = self.makeConn()
             cur = conn.cursor()
@@ -117,7 +119,7 @@ class SQLModel:
         except Exception as error:
             print(error)
 
-    def retriveClients(self, amount):
+    def retrieveClients(self, amount):
         try:
             conn = self.makeConn()
             cur = conn.cursor()
@@ -150,7 +152,7 @@ class SQLModel:
         except Exception as error:
             print(error)
 
-    def retrivePhones(self, amount):
+    def retrievePhones(self, amount):
         try:
             conn = self.makeConn()
             cur = conn.cursor()
@@ -183,7 +185,8 @@ class SQLModel:
         except Exception as error:
             print(error)
 
-    def retriveAddresses(self, amount):
+    # Retrieves Address as a list given a specified amount, will return in a descending format
+    def retrieveAddresses(self, amount):
         try:
             conn = self.makeConn()
             cur = conn.cursor()
@@ -201,3 +204,6 @@ class SQLModel:
             print(error)
 
         return None
+
+
+

@@ -45,7 +45,7 @@ class DataScraper:
     def savePhonesToDatabase(self, clientID, phones):
         phone_length = min(len(phones), 5)
         for i in range(phone_length):
-            self.controller.addPhone(self.controller.retrivePhones(1)[0][0] + 1, clientID, phones[i])
+            self.controller.addPhone(self.controller.retrievePhones(1)[0][0] + 1, clientID, phones[i])
 
     def extract_phones_from_page(self, page_source):
         phones = []
@@ -131,11 +131,11 @@ class DataScraper:
                 print(age)
                 if phones and address and age:
                     self.write_phones_to_xlsx_file(wb, ws, phones, row)
-                    tempClientID = self.controller.retriveClients(1)[0][0]
+                    tempClientID = self.controller.retrieveClients(1)[0][0]
                     self.controller.addClient(tempClientID + 1, self.controller.currentUserID, first_name, last_name, "Life", int(age))
                     self.savePhonesToDatabase(tempClientID, phones)
                     #ADD CITIES
-                    self.controller.addAddress(self.controller.retriveAddresses(1)[0][0] + 1, tempClientID, address.get('streetAddress'), address.get('state'), address.get('zipcode'))
+                    self.controller.addAddress(self.controller.retrieveAddresses(1)[0][0] + 1, tempClientID, address.get('streetAddress'), address.get('state'), address.get('zipcode'))
 
                 else:
                     print(f"No phones found for {first_name} {last_name}")
