@@ -20,8 +20,6 @@ class PandasModel:
         clientData = self.controller.retrieveClientInformation(clientID)
         clientPhones = self.controller.retrieveClientPhoneNumbers(clientID)
 
-        group_indices = [i // 5 for i in range(len(clientPhones))]
-
         dfData = pd.DataFrame(clientData, columns=['Broker_Issuer', 'First_Name', 'Last_Name', 'Address', 'State', 'Zipcode'])
         dfPhones = pd.DataFrame(clientPhones, columns=['Phone_number'])
 
@@ -38,6 +36,15 @@ class PandasModel:
 
         self.df = pd.concat([self.df, dfCombined], ignore_index=True)
         print(self.df)
+
+    def loadAllClientData(self, userID):
+        clientData = self.controller.retrieveAllClientID(userID)
+
+        print(clientData)
+
+        for clientID in clientData:
+            clientID = clientID[0]
+            self.processData(clientID)
 
     def getDataFrame(self):
         return self.df

@@ -67,6 +67,11 @@ class Controller:
     def resetDataFrame(self):
         self.pandasModel.df = None
 
+    def retrieveAllClientID(self, userID):
+        return self.SQLModel.retrieveAllClientID(userID)
+
+    def loadAllClientData(self, userID):
+        return self.pandasModel.loadAllClientData(userID)
 
 
 

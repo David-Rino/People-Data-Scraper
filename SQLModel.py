@@ -138,6 +138,25 @@ class SQLModel:
 
         return None
 
+    def retrieveAllClientID(self, userID):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT cl.clientID
+                FROM users u 
+                JOIN clients cl ON cl.brokerissuer = u.user_id
+                WHERE u.user_id = {userID}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
+
     def addPhone(self, phoneID, clientID, phoneNumber):
         try:
             conn =self.makeConn()
