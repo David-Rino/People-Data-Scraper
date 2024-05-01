@@ -137,6 +137,7 @@ class DataScraper:
                     self.savePhonesToDatabase(tempClientID, phones)
                     #ADD CITIES
                     self.controller.addAddress(self.controller.retrieveAddresses(1)[0][0] + 1, tempClientID, address.get('streetAddress'), address.get('state'), address.get('zipcode'))
+                    self.controller.addInteractionLog(self.controller.retrieveLogs(1)[0][0] + 1, tempClientID, self.controller.currentUserID, 'Scrape', 'Success')
                     self.controller.processData(tempClientID)
 
                 else:

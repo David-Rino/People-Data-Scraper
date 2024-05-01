@@ -20,7 +20,7 @@ class View:
         self.buttonFrame = tk.Frame(self.root)
         self.buttonFrame.pack(pady=20)
 
-        self.interactionLogs = tk.Button(self.buttonFrame, text = "Interaction Logs", font=('Arial', 16), command= None)
+        self.interactionLogs = tk.Button(self.buttonFrame, text = "Interaction Logs", font=('Arial', 16), command= self.openInteractionLog)
         self.interactionLogs.pack(side=tk.LEFT, padx = 10)
 
         self.allClients = tk.Button(self.buttonFrame, text = "View All Clients", font=('Arial', 16), command= self.openAllClients)
@@ -34,6 +34,24 @@ class View:
         self.controller.loadAllClientData(self.currentUser[0])
         self.displayPhones()
 
+    def openInteractionLog(self):
+        self.resetMenu()
+        self.controller.resetDataFrame()
+        self.controller.loadAllUserLogs(self.currentUser[0])
+        self.displayLogs()
+
+    def displayLogs(self):
+        self.sheetTable = tk.Label(self.root, text="List of User Logs for: " + self.currentUser[1], font=('Arial', 18))
+        self.sheetTable.pack()
+
+        self.frame = tk.Frame(self.root)
+        self.frame.pack(fill=tk.BOTH, expand=True)
+
+        self.table = Table(self.frame, dataframe=self.controller.getDataFrame())
+        self.table.show()
+
+        self.resetButton = tk.Button(self.root, text="Main Menu", font=('Arial', 16), command=self.resetTable)
+        self.resetButton.pack(padx=10, pady=10)
 
     def resetMenu(self):
         self.label.pack_forget()
@@ -89,6 +107,7 @@ class View:
         for widget in self.root.winfo_children():
             widget.destroy()
 
+        self.menuBar()
         self.userLogin()
 
     def addUser(self):

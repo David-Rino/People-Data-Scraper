@@ -46,5 +46,10 @@ class PandasModel:
             clientID = clientID[0]
             self.processData(clientID)
 
+    def loadAllUserLogs(self, userID):
+        logData = self.controller.retrieveAllUserLogs(userID)
+        dfData = pd.DataFrame(logData, columns=['logID', 'Broker_Issuer', 'Client_First_Name', 'interactionType', 'Date', 'Status'])
+        self.df = pd.concat([self.df, dfData], ignore_index=True)
+
     def getDataFrame(self):
         return self.df

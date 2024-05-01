@@ -73,6 +73,19 @@ class Controller:
     def loadAllClientData(self, userID):
         return self.pandasModel.loadAllClientData(userID)
 
+    def retrieveLogs(self, amount):
+        return self.SQLModel.retrieveLogs(amount)
+
+    def retrieveAllUserLogs(self, userID):
+        return self.SQLModel.retrieveAllUserLogs(userID)
+
+    def addInteractionLog(self, logID, clientID, userID, interactionType, status):
+        return self.SQLModel.addInteractionLog(logID, clientID, userID, interactionType, status)
+
+    def loadAllUserLogs(self,userID):
+        return self.pandasModel.loadAllUserLogs(userID)
+
+
 
 
 

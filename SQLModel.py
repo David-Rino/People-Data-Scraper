@@ -265,3 +265,57 @@ class SQLModel:
 
         return None
 
+    def retrieveLogs(self, amount):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT *
+                FROM interaction_logs 
+                ORDER BY logID DESC
+                limit {amount}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
+
+    def retrieveAllUserLogs(self, userID):
+        try:
+            conn = self.makeConn()
+            cur = conn.cursor()
+            cur.execute(f"""
+                SELECT inter.logID, cl.first_name AS Broker_Issuer, cl.first_name AS Client_First_Name, inter.interactiontype, inter.datechanged, inter.status 
+                FROM users u
+                JOIN clients cl ON cl.brokerissuer = u.user_id
+                JOIN interaction_logs inter ON inter.clientid = cl.clientid
+                WHERE u.user_id = {userID}
+            """)
+            row = cur.fetchall()
+            cur.close()
+            conn.close()
+            return row
+        except Exception as error:
+            print(error)
+
+        return None
+
+    def addInteractionLog(self, logID, clientID, userID, interactionType, status):
+        try:
+            conn =self.makeConn()
+            cur = conn.cursor()
+            currentTime = datetime.now()
+            currentTime = currentTime.strftime("%m-%d-%Y")
+            cur.execute(f"""
+                INSERT INTO interaction_logs (logID, clientID, userID, interactiontype, datechanged, status)
+                VALUES ({logID}, {clientID}, {userID}, '{interactionType}', '{currentTime}', '{status}');
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as error:
+            print(error)
