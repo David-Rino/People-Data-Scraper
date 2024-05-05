@@ -166,6 +166,7 @@ class View:
         self.frame.pack_forget()
         self.table.pack_forget()
         self.resetButton.pack_forget()
+        self.controller.resetDataFrame()
         self.mainMenu()
 
     def displayPhones(self):

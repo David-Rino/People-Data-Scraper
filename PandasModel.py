@@ -13,10 +13,10 @@ class PandasModel:
             self.df = pd.read_excel(file_path)
             #print(self.df)
         except Exception as e:
-            print(f"Error reading the Excel file: {e}")
+            print(str(e))
 
     def processData(self, clientID):
-        print("Ermm What the Sigma. Process Client Data for " + str(clientID))
+        #print("Ermm What the Sigma. Process Client Data for " + str(clientID))
         clientData = self.controller.retrieveClientInformation(clientID)
         clientPhones = self.controller.retrieveClientPhoneNumbers(clientID)
 
