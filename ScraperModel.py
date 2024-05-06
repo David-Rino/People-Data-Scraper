@@ -36,12 +36,6 @@ class DataScraper:
         ws = wb.active
         return wb, ws
 
-    def write_phones_to_xlsx_file(self, wb, ws, phones, row):
-        phone_length = min(len(phones), 5)
-        for i in range(phone_length):
-            ws[self.phones_cols[i] + str(row)].value = phones[i]
-        wb.save(self.xlsx_path)
-
     def savePhonesToDatabase(self, clientID, phones):
         phone_length = min(len(phones), 5)
         for i in range(phone_length):
@@ -131,7 +125,6 @@ class DataScraper:
                 age = self.extract_age_from_page(driver.page_source)
                 print(age)
                 if phones and address and age:
-                    #self.write_phones_to_xlsx_file(wb, ws, phones, row)
                     tempClientID = self.controller.retrieveClients(1)[0][0] + 1
                     self.controller.addClient(tempClientID, self.controller.currentUserID, first_name, last_name, "Life", int(age))
                     self.savePhonesToDatabase(tempClientID, phones)
