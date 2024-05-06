@@ -1,0 +1,7 @@
+beautifulsoup4==4.12.3
+openpyxl==3.0.10
+pandas==2.2.2
+pandastable==0.13.1
+psycopg==3.1.18
+undetected_chromedriver==3.5.4
+usaddress==0.5.10
