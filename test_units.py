@@ -6,6 +6,7 @@ import pandas as pd
 
 from SQLModel import SQLModel
 from PandasModel import PandasModel
+from ScraperModel import DataScraper
 
 class SQLModelTests(unittest.TestCase):
     def setUp(self):
@@ -536,6 +537,26 @@ class PandasModelTests(unittest.TestCase):
         result = self.pandas.getDataFrame()
 
         self.assertIsNone(result)
+
+class ScraperModelsTest(unittest.TestCase):
+
+    def setUp(self):
+        self.scraper = DataScraper()
+
+    def testSetController(self):
+        controller = "test"
+        self.scraper.setController(controller)
+        self.assertEqual(self.scraper.controller, controller)
+
+    def testSetXlsxFile(self):
+        filename = "Sigma.xlsx"
+        self.scraper.set_xlsx_file(filename)
+        self.assertEqual(self.scraper.xlsx_path, filename)
+
+    def testOpenXlsxFile(self):
+        xlsx_path = "Sigma.xlsx"
+
+
 
 
 

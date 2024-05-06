@@ -23,7 +23,7 @@ class SQLModel:
         try:
             cur = self.connection.cursor()
             cur.execute(f"""
-                TRUNCATE TABLE clients, phonenumbers, property;
+                TRUNCATE TABLE clients, phonenumbers, property, interaction_logs;
 
                 INSERT INTO clients (clientID, brokerIssuer, first_name, last_name, type_of_insurance, age)
                 VALUES (1, 1, 'Rino', 'David', 'health', 21);
@@ -33,6 +33,9 @@ class SQLModel:
 
                 INSERT INTO property (propertyID, clientID, address, state, zipcode)
                 VALUES (1, 1, '7777 Home Rd', 'NV', '89142');
+                
+                INSERT INTO interaction_logs (logID, clientID, userID, interactiontype, datechanged, status)
+                VALUES (1, 1, 1, 'Scrape', '4-30-2024', 'Success');
             """)
             self.connection.commit()
             cur.close()

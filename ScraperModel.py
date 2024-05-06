@@ -15,7 +15,6 @@ class DataScraper:
         self.first_name_col = 'A'
         self.last_name_col = 'B'
         self.address_col = 'F'
-        self.phones_cols = ['L', 'M', 'N', 'O', 'P']
         self.controller = None
 
     def setController(self, controller):
@@ -31,7 +30,7 @@ class DataScraper:
         self.xlsx_path = filename.strip()
 
     def open_xlsx_file(self):
-        print(self.xlsx_path)
+        #print(self.xlsx_path)
         wb = load_workbook(self.xlsx_path)
         ws = wb.active
         return wb, ws

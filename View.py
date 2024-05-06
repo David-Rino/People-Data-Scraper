@@ -122,6 +122,11 @@ class View:
 
     def addUserButton(self):
         previousUserNo = self.controller.retrieveUserList(1)
+
+        if previousUserNo == []:
+            self.controller.addUser(1, "Test", "User")
+            previousUserNo = self.controller.retrieveUserList(1)
+
         name = self.textbox.get('1.0', tk.END).strip().split()
         self.controller.addUser(previousUserNo[0][0] + 1, name[0].strip(), name[1].strip())
 
