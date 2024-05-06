@@ -496,7 +496,8 @@ class PandasModelTests(unittest.TestCase):
         clientPhones = [
             ['111-111-1111'],
             ['222-222-2222'],
-            ['333-333-3333']
+            ['333-333-3333'],
+            ['444-444-4444'],
         ]
 
         mock_controller = MagicMock()
@@ -506,8 +507,36 @@ class PandasModelTests(unittest.TestCase):
 
         self.pandas.processData(1)
 
+        expectedData = [['Rino', 'Shino', 'David', 'Sigma Ohio 420', 'OH', '88888', '111-111-1111', '222-222-2222', '333-333-3333', '444-444-4444', 'N/A']]
+
+        # Simulating the processing within process Data
+        expectedDfData = pd.DataFrame(expectedData, columns=['Broker_Issuer', 'First_Name', 'Last_Name', 'Address', 'State', 'Zipcode', 'Phone Number 1', 'Phone Number 2', 'Phone Number 3', 'Phone Number 4', 'Phone Number 5'])
+
+        pd.testing.assert_frame_equal(self.pandas.df,expectedDfData)
+
         self.pandas.controller.retrieveClientInformation.assert_called_once_with(1)
         self.pandas.controller.retrieveClientPhoneNumbers.assert_called_once_with(1)
+
+    def testLoadAllUserLogs(self):
+
+        logData = [['1', 'Rino', 'Shion' 'David', 'Scrape', '04-20-2024', 'Success']]
+
+        mock_controller = MagicMock()
+        mock_controller.retrieveAllUserLogs.return_value = logData
+        self.pandas.controller = mock_controller
+
+        expectedDFData = pd.DataFrame(logData, columns=['logID', 'Broker_Issuer', 'Client_First_Name', 'interactionType', 'Date', 'Status'])
+
+        self.pandas.loadAllUserLogs(1)
+
+        self.pandas.controller.retrieveAllUserLogs.assert_called_once_with(1)
+        pd.testing.assert_frame_equal(self.pandas.df, expectedDFData)
+
+    def testGetDataFrame(self):
+        result = self.pandas.getDataFrame()
+
+        self.assertIsNone(result)
+
 
 
 if __name__ == '__main__':
