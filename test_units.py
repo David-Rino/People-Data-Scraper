@@ -554,8 +554,30 @@ class ScraperModelsTest(unittest.TestCase):
         self.scraper.set_xlsx_file(filename)
         self.assertEqual(self.scraper.xlsx_path, filename)
 
-    def testOpenXlsxFile(self):
-        xlsx_path = "Sigma.xlsx"
+    @patch('ScraperModel.load_workbook')
+    def testOpenXlsxFile(self, mock_load_workbook):
+        self.scraper.xlsx_path = "Sigma.xlsx"
+
+        mock_workbook = MagicMock()
+        mock_worksheet = MagicMock()
+        mock_workbook.active.return_value = mock_worksheet
+        mock_load_workbook.return_value = mock_workbook
+
+        wb, ws = self.scraper.open_xlsx_file()
+
+        mock_load_workbook.assert_called_once_with("Sigma.xlsx")
+
+    def test_savePhonesToDatabase(self):
+        controller = MagicMock()
+        controller.retrievePhones(1)[0][0].return_value = 1
+
+        clientID = 123
+        phones = ["1234567890", "0987654321", "1112223333", "4445556666", "7778889999", "0001112222"]
+        controller.addPhone.return_value = "Success"
+        self.scraper.controller = controller
+        self.scraper.savePhonesToDatabase(clientID, phones)
+        controller.addPhone.assert_called()
+
 
 class ControllerTest(unittest.TestCase):
 
