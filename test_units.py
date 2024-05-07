@@ -7,6 +7,7 @@ import pandas as pd
 from SQLModel import SQLModel
 from PandasModel import PandasModel
 from ScraperModel import DataScraper
+from Controller import  Controller
 
 class SQLModelTests(unittest.TestCase):
     def setUp(self):
@@ -555,6 +556,142 @@ class ScraperModelsTest(unittest.TestCase):
 
     def testOpenXlsxFile(self):
         xlsx_path = "Sigma.xlsx"
+
+class ControllerTest(unittest.TestCase):
+
+    def setUp(self):
+        self.userView = MagicMock()
+        self.pandasModel = MagicMock()
+        self.SQLModel = MagicMock()
+        self.scraperModel = MagicMock()
+
+        self.controller = Controller(self.userView, self.pandasModel, self.SQLModel, self.scraperModel)
+
+    def testLoadDataFrame(self):
+        self.scraperModel.xlsx_path = "Test"
+        self.controller.loadDataFrame()
+        self.pandasModel.processFile.assert_called_once()
+
+    def testRunScraper(self):
+        self.controller.runScraper()
+        self.scraperModel.run.assert_called_once()
+
+    def testRunWindow(self):
+        self.controller.runWindow()
+        self.userView.openWindow.assert_called_once()
+
+    def testSetFilename(self):
+        self.controller.setFilename("goonmaxxing.xlsx")
+        self.scraperModel.set_xlsx_file.assert_called_once()
+
+    def testGetDataFrame(self):
+        self.pandasModel.getDataFrame.return_value = "Bowomp"
+        result = self.controller.getDataFrame()
+        self.assertEqual(result, "Bowomp")
+
+    def testRetrieveUser(self):
+        self.SQLModel.retrieveUser.return_value = "Ermm... What the Sigma"
+        result = self.controller.retrieveUser(1)
+        self.assertEqual(result, "Ermm... What the Sigma")
+
+    def testRetrieveUserList(self):
+        self.SQLModel.retrieveUserList.return_value = "Fanum Tax"
+        result = self.controller.retrieveUserList(2)
+        self.assertEqual(result, "Fanum Tax")
+
+    def testAddUser(self):
+        self.SQLModel.addUser.return_value = "Drake"
+        result = self.controller.addUser(1, "Shino", "Machi")
+        self.assertEqual(result, "Drake")
+
+    def testAddClient(self):
+        self.SQLModel.addClient.return_value = "SakiSaki"
+        result = self.controller.addClient(1, 1, "Shino", "Kiryuu", "Love", 21)
+        self.assertEqual(result, "SakiSaki")
+
+    def testRetrieveClients(self):
+        self.SQLModel.retrieveClients.return_value = "Hody Jones"
+        result = self.controller.retrieveClients(1)
+        self.assertEqual(result, "Hody Jones")
+
+    def testAddPhone(self):
+        self.SQLModel.addPhone.return_value = "Towa"
+        result = self.controller.addPhone(1, 1, '111-111-1111')
+        self.assertEqual(result, "Towa")
+
+    def testRetrievePhones(self):
+        self.SQLModel.retrievePhones.return_value = "Suisei"
+        result = self.controller.retrievePhones(1)
+        self.assertEqual(result, "Suisei")
+
+    def testAddAddress(self):
+        self.SQLModel.addAddress.return_value = "Arona"
+        result = self.controller.addAddress(1, 1, "Sigma Ohio", "NV", "99999")
+        self.assertEqual(result, "Arona")
+
+    def testRetrieveAddresses(self):
+        self.SQLModel.retrieveAddresses.return_value = "Plana"
+        result = self.controller.retrieveAddresses(1)
+        self.assertEqual(result, "Plana")
+
+    def testResetDatabase(self):
+        self.SQLModel.resetDatabase.return_value = "Yuuka"
+        result = self.controller.resetDatabase()
+        self.assertEqual(result, "Yuuka")
+
+    def testRetrieveClientInformation(self):
+        self.SQLModel.retrieveClientInformation.return_value = "Rio"
+        result = self.controller.retrieveClientInformation(100)
+        self.assertEqual(result, "Rio")
+
+    def testRetrieveClientPhoneNumbers(self):
+        self.SQLModel.retrieveClientPhoneNumbers.return_value = "Haruna"
+        result = self.controller.retrieveClientPhoneNumbers(1)
+        self.assertEqual(result, "Haruna")
+
+    def testProcessData(self):
+        self.pandasModel.processData.return_value = "Hoshino"
+        result = self.controller.processData(1)
+        self.assertEqual(result, "Hoshino")
+
+    def testResetDataFrame(self):
+        self.controller.resetDataFrame()
+        self.assertIsNone(self.pandasModel.df)
+
+    def testRetrieveAllClientID(self):
+        self.SQLModel.retrieveAllClientID.return_value = "Robin"
+        result = self.controller.retrieveAllClientID(1)
+        self.assertEqual(result, "Robin")
+
+    def testLoadAllClientData(self):
+        self.pandasModel.loadAllClientData.return_value = "Topaz"
+        result = self.controller.loadAllClientData(1)
+        self.assertEqual(result, "Topaz")
+
+    def testRetrieveLogs(self):
+        self.SQLModel.retrieveLogs.return_value = "Jade"
+        result = self.controller.retrieveLogs(1)
+        self.assertEqual(result, "Jade")
+
+    def testRetrieveAllUserLogs(self):
+        self.SQLModel.retrieveAllUserLogs.return_value = "Acheron"
+        result = self.controller.retrieveAllUserLogs(1)
+        self.assertEqual(result, "Acheron")
+
+    def testAddInteractionLogs(self):
+        self.SQLModel.addInteractionLog.return_value = "Sparkle"
+        result = self.controller.addInteractionLog(1, 1, 1, 'Gacha', 'Win')
+        self.assertEqual(result, "Sparkle")
+
+    def testLoadAllUserLogs(self):
+        self.pandasModel.loadAllUserLogs.return_value = "Sliver Wolf"
+        result = self.controller.loadAllUserLogs(1)
+        self.assertEqual(result, "Sliver Wolf")
+
+
+
+
+
 
 
 
