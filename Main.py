@@ -22,6 +22,7 @@ if __name__ == "__main__":
     userData.setController(userController)
     userDatabase.setController(userController)
     userDataScraper.setController(userController)
+    print("This Dockerfile has been created but for the purposes of the pgoram view it will not work")
     userController.runWindow()
 
 
