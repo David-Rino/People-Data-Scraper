@@ -10,7 +10,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: DavidRino/PeopleDataScraper
 
 jobs:
 
@@ -21,13 +21,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker-compose build -t ${{ github.repository }}
+      run: docker-compose build -t DavidRino/PeopleDataScraper .
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Test the Docker image
-        run: docker-compose --rm -d  ${{ github.repository }}:latest
+        run: docker-compose --rm -d DavidRino/PeopleDataScraper:latest
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
