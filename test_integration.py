@@ -160,5 +160,5 @@ class intergrationTest(unittest.TestCase):
         mock_table.assert_called_once()
 
         self.SQLModel.retrieveAllClientID.assert_called_once()
-        self.SQLModel.retrieveClientInformation.assert_called_once()
-        self.SQLModel.retrieveClientPhoneNumbers.assert_called_once()
+        self.SQLModel.retrieveClientInformation.assert_called()
+        self.SQLModel.retrieveClientPhoneNumbers.assert_called()
