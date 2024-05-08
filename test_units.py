@@ -8,6 +8,9 @@ from SQLModel import SQLModel
 from PandasModel import PandasModel
 from ScraperModel import DataScraper
 from Controller import  Controller
+from View import  View
+
+# Covers nearly class View isn't tested fully but that is within reason from as (I asked Erin For This)
 
 class SQLModelTests(unittest.TestCase):
     def setUp(self):

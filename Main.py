@@ -22,7 +22,16 @@ if __name__ == "__main__":
     userData.setController(userController)
     userDatabase.setController(userController)
     userDataScraper.setController(userController)
-    print("This Dockerfile has been created but for the purposes of the pgoram view it will not work")
+
+    # This Section of Commented Code is Used for testing for CS 333
+    #print("This Dockerfile has been created but for the purposes of the program view it will not work")
+    #print("Below is are table showing interaction logs, all clients")
+    #userData.loadAllUserLogs(1)
+    #print(userData.df.to_string())
+    #userController.resetDataFrame()
+    #userData.loadAllUserLogs(1)
+    #print(userData.df.to_string())
+
     userController.runWindow()
 
 
